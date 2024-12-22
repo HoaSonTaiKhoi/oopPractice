@@ -1,0 +1,1 @@
+./wet text1.txt output.txt
