@@ -1,0 +1,75 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int length(int n)
+{
+    if(n==0) return 0;
+    return 1+length(n/10);
+}
+int istanggiam(int x, int &k)
+{
+    int n=length(x),tmp, e=0;
+    int a[n];
+    for(int i=n-1; i>=0; i--)
+    {
+        tmp=x/pow(10, i);
+    a[n-i-1]=tmp%10;;
+    }
+
+    for(int i=0; i<n-1; i++)
+    {
+        if(a[i]!=a[i+1]) {e=i;break;}
+    }
+
+    if(a[e]<a[e+1])
+    {
+        for(int i=e+1; i<n-1; i++)
+        if(a[i]>a[i+1]) {k=i;return 1;}
+    }
+    else
+    {
+        for(int i=e+1; i<n-1; i++)
+        if(a[i]<a[i+1]) {k=i;return 2;}
+    }
+    return 0;
+}
+
+int findNumber(int x)
+{
+    int n=length(x),tmp, e=0, k=0;
+    int a[n];
+    for(int i=n-1; i>=0; i--)
+    {
+        tmp=x/pow(10, i);
+    a[n-i-1]=tmp%10;;
+    }
+
+    e=istanggiam(x, k);
+    if(!e) {return x;}
+    else if(e==1)
+    {
+        tmp=a[k];
+        for(int i=k+1; i<n; i++) a[i]=tmp;
+    }
+    else if(e==2)
+    {
+        a[k]++;
+        for(int i=k+1; i<n; i++) a[i]=0;
+    }
+
+    x=0;
+    for(int i=0; i<n; i++)
+    {
+        x+=a[i]*pow(10,n-i-1);
+    }
+    return x;
+}
+
+int main()
+{
+    int x;
+    cin>>x;
+    cout<<findNumber(x);
+return 0;
+}

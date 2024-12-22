@@ -1,0 +1,106 @@
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include<iomanip>
+using namespace std;
+
+class Friend
+{
+    protected:
+     string name;
+     int age;
+     double time;
+    public:
+     Friend(){}
+     ~Friend(){}
+     virtual void Nhap(){cin>>name>>age;}
+     virtual void Xuat(){cout<<"Ten: "<<name<<", tuoi: "<<age;}
+     virtual int phanloai()=0;
+     virtual double T(int n)=0;
+};
+          class BestFriend:public Friend
+          {
+            private:
+             string sdt;
+            public:
+             BestFriend():Friend(){time = 5;}
+             ~BestFriend(){}
+             void Nhap(){Friend::Nhap(); cin>>sdt;}
+             int phanloai(){return 1;}
+             double T(int n){return time;}
+             void Xuat(){Friend::Xuat(); cout<<", so dien thoai: "<<sdt;}
+          };
+
+
+          class BoyFriend:public Friend
+          {
+            private:
+             double income;
+            public:
+             BoyFriend():Friend(){}
+             ~BoyFriend(){}
+             void Nhap(){Friend::Nhap(); cin>>income;}
+             int phanloai(){return 2;}
+             double T(int n){return 5.0*income/10000000.0;}
+             void Xuat(){Friend::Xuat(); cout<<", thu nhap: "<<setprecision(10)<<income<<"d";}
+          };
+
+          class OtherBoy:public Friend
+          {
+            private:
+             double attractiveness;
+            public:
+             OtherBoy():Friend(){}
+             ~OtherBoy(){}
+             void Nhap(){Friend::Nhap(); cin>>attractiveness;}
+             int phanloai(){return 3;}
+             double T(int n){return round(attractiveness*20.0/double(n)*10)/10;}
+             void Xuat()
+             {
+                Friend::Xuat();
+                double a= attractiveness;
+                cout<<", do thu hut: ";
+                if(a>=0.7) cout<<"cao*";
+                else if(a<0.4) cout<<"thap*";
+                else cout<<"trung binh*";
+             }
+          };
+
+int main() {
+
+    Friend **ds;
+
+    int n, x;
+    cin>>n; ds=new Friend* [n];
+
+    double max_time=0, otherboy=0, bestfriend=0, boyfriend=0;
+    for(int i=0; i<n; i++)
+    {
+        cin>>x;
+        if(x==1) ds[i]=new BestFriend;
+        else if(x==2) ds[i]=new BoyFriend;
+        else if(x==3) ds[i]= new OtherBoy;
+        ds[i]->Nhap();
+
+        if(x==1) bestfriend+= ds[i]->T(n);
+        else if(x==2) boyfriend+= ds[i]->T(n);
+        else if(x==3) otherboy+=ds[i]->T(n);
+        if(ds[i]->T(n)>max_time) {max_time=ds[i]->T(n);}
+    }
+
+    cout<<"Thong ke:\n"
+        <<"-Thoi gian cho ban than: "<<bestfriend
+        <<" h\n-Thoi gian cho ban trai: "<<boyfriend
+        <<" h\n-Thoi gian cho ban trai khac: "<<otherboy
+        <<" h\nNguoi ban quan trong nhat: \n";
+    
+    for(int i=0; i<n; i++)
+    {
+        if(ds[i]->T(n)==max_time) {ds[i]->Xuat(); cout<<"\n";}
+    }
+
+    return 0;
+}

@@ -1,0 +1,56 @@
+#include<iostream>
+
+class SoPhuc
+{
+   private:
+    double a,b;
+   
+   public:
+    void Nhap()
+    {
+      std::cin>>this->a>>this->b;
+    }
+    const SoPhuc operator-(const SoPhuc &sp2)
+    {
+        SoPhuc sp;
+        sp.a=this->a-sp2.a;
+        sp.b=this->b-sp2.b;
+        return sp;
+    } 
+    const SoPhuc operator/(const SoPhuc&sp2)
+    {
+         SoPhuc sp;
+         double m=sp2.a*sp2.a+sp2.b*sp2.b;
+      sp.a=(this->a*sp2.a+this->b*sp2.b)/m;
+      sp.b=(this->b*sp2.a-this->a*sp2.b)/m;
+         return sp;
+    }
+    void Out()
+    {
+      if(a!=0)
+      {
+         if(b==0) std::cout<<a;
+         else if(b==1) std:: cout<<a<<"+i";
+         else if(b==-1) std::cout<<a<<"-i";
+         else if(b>0) std::cout<<a<<"+"<<b<<"i";
+         else if(b<-0) std::cout<<a<<b<<"i";
+      }
+      else
+      {
+         if(b==0)std::cout<<0;
+         else if(b==1) std::cout<<"i";
+         else if(b==-1) std::cout<<"-i";
+         else std::cout<<b<<"i";
+      }
+    }
+};
+
+int main()
+{
+   SoPhuc sp1; sp1.Nhap();
+   SoPhuc sp2; sp2.Nhap();
+   SoPhuc sp3;
+   sp3=sp1/sp2;
+   sp3.Out();
+   return 0;
+}

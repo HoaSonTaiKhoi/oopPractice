@@ -1,0 +1,3 @@
+﻿  hocsinh.cpp
+C:\Code C\He\Project1\hocsinh.cpp(44,14): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Project1.vcxproj -> C:\Code C\He\Project1\x64\Debug\Project1.exe

@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+#include<algorithm>
+#include<string>
+class Ciper
+{
+    private:
+     int key;
+     std::vector<char> s={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+    public:
+     Ciper()
+     {
+        std::cin>>this->key;
+     }
+     // MÃ HÓA
+     void encrypt(std::string &m)
+     {
+         for(int i=0; i< m.size(); i++)
+         {
+            if(m[i]==' ') std::cout<<" ";
+            else
+            for(int j=0; j<s.size(); j++)
+            {
+                if(m[i]==s[j]||m[i]==tolower(s[j]))
+                {
+                    int x=(j+key)%26;
+                    std::cout<<s[x];
+                }
+            }
+         }  
+     }  
+     void decrypt(std::string &m)
+     {
+        for(int i=0; i<m.size(); i++)
+        {
+        if(m[i]==' ') std::cout<<" ";
+        else
+        {
+            for(int j=0; j<s.size(); j++)
+            {
+                if(m[i]==s[j]||m[i]==tolower(s[j]))
+                {
+                    int x;
+                    if(j-key<0) x=j-key+26;
+                    else x=(j-key)%26;
+                    std::cout<<s[x];
+                }
+            }
+        }
+        }
+     }
+};
+
+main()
+{
+    Ciper S;
+    std::string m;
+    std::cin.ignore();
+    getline(std::cin, m, '\n');
+    S.decrypt(m);
+    //
+return 0;
+}

@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+using namespace std;
+int diagonalDiff(itn arr[][1000], int row, int col, int x, int y)
+{
+    int sum1=0; int sum2=0;
+    int a=x, b=y, c=x, d=y;
+    while (a>=0 && b>=0)
+    {
+        a--;
+        b--;
+    }
+    while (a<=row && y<=col)
+    {
+        sum1+=arr[a++][b++];
+    }
+    
+}

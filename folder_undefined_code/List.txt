@@ -1,0 +1,277 @@
+
+#include<iostream>
+
+using namespace std;
+
+struct Node
+{
+    int info;
+    Node* next;
+};
+
+Node*  CreateNode(int x)
+{
+    Node* p=new Node;
+    if(!p) exit(1);
+    p->info=x;
+    p->next=nullptr;
+return p;
+}
+
+struct List
+{
+    Node* head;
+    Node* tail;
+    List(){head=tail=nullptr;}
+};
+
+void CreateList(List &L)
+{
+    L.head=nullptr;
+    L.tail=nullptr;
+}
+
+void AddTail(List &L, int x)
+{
+    Node* p=CreateNode(x);
+    if(!p) exit(1);
+
+    if(L.head==nullptr) L.head=p;
+    else L.tail->next=p;
+    L.tail=p;
+return;
+}
+
+void AddHead(List& L, int x)
+{
+    Node* p=CreateNode(x);
+    if(!p) exit(1);
+
+    if(L.head==nullptr) {L.head=p; L.tail=p;}
+    else{p->next=L.head; L.head=p;}
+return;
+}
+
+void NhapList(List &L)
+{
+    int n, x;
+     cin>>n;
+     while(n>0)
+     {
+        cin>>x; AddHead(L, x);
+        n--;
+     }
+return;
+}
+
+void XuatList(List L)
+{
+    while(L.head!=nullptr)
+    {
+        cout<<L.head->info<<" ";
+        L.head=L.head->next;
+    }
+return;
+}
+
+void AddAfterQ(List &L, int x, int y)
+{
+    if(!L.head) return;
+
+    Node *tmp=L.head , *p= CreateNode(x);
+    while(tmp && tmp->info!=y)
+    {
+        tmp=tmp->next;
+    }
+    if(tmp)
+    {
+        p->next=tmp->next;
+        tmp->next=p;   
+    }
+return;
+}
+  
+
+  void RemoveHead(List &L)
+  {
+    if(L.head==nullptr) return;
+    Node* p=L.head;
+    L.head=p->next;
+    delete p;
+  }
+  
+  void RemoveAfterQ(List &L, int x)
+  {
+     if(!L.head) return;
+
+     Node* Q=L.head;
+     while(Q&&Q->info!=x) Q=Q->next;
+
+     Node* tmp=Q->next;
+
+     if(tmp->next) Q->next=tmp->next;
+     else
+     {
+        Q->next=L.tail;
+        L.tail=Q;
+     }
+     delete tmp;
+  }
+
+  void RemoveX(List &L, int x)
+  {
+    if(!L.head) return;
+    Node* px=L.head, *tmp=L.head;
+    while(px&&px->info!=x) 
+     {
+        tmp=px;
+        px=px->next;
+     }
+    if(px->next)
+    {
+        tmp->next=px->next;
+    }
+    else
+    {
+        tmp->next=L.tail;
+        L.tail=tmp;
+    }
+    delete px;
+  }
+
+  void RPrint(List L)
+  {
+    if(L.head)
+    {
+        cout<<L.head->info<<" ";
+        L.head=L.head->next;
+        if(!L.head) L.tail=nullptr;
+        if(L.head) RPrint(L);
+    }
+    return;
+  }
+
+// STACK
+
+struct Stack
+{
+    Node* stack;
+    Stack(){stack=nullptr;}
+
+    void push(int x)
+    {
+        Node*p=CreateNode(x);
+        if(!p) exit(1);
+
+        if(!stack) stack=p;
+        else
+        {
+            p->next=stack;
+            stack=p;
+        }
+    return;
+    }
+
+    void pop()
+    {
+        if(stack)
+        {
+            Node* tmp=stack;
+            stack=tmp->next;
+            delete tmp;
+        }
+    return;
+    }
+
+    bool isEmpty(){if(!stack) return 1; return 0;}
+    int top(){return stack->info;}
+    int size(){ Node* p= stack; int n=0; while(p) {n++; p=p->next;} return n;}
+
+    void Push_n()
+    {
+        int n,x ;
+        cin>>n;
+        while(n>0)
+        {
+            cin>>x;
+            this->push(x);
+            n--;
+        }
+    }
+};
+
+// Queue
+
+struct Queue
+{
+    Node* head, *tail;
+
+    Queue(){head=tail=nullptr;}
+
+    void enqueue(int x)
+    {
+        Node* p=CreateNode(x);
+        if(!p) exit(1);
+
+        if(head==nullptr) head=p;
+        else tail->next=p;
+        tail=p;
+    return;
+    }
+
+    void dequeue()
+    {
+        if(head && tail)
+        {
+         Node *tmp=head;
+         if(!tmp->next) tail=nullptr;
+         head=tmp->next;
+         delete tmp;
+        }
+    }
+
+    bool isEmpty(){if(!head) return 1; return 0;}
+    int front(){return head->info;}
+    int size(){Node*p= head; int n=0; while(p){n++; p=p->next;} return n;}
+    void enqueue_n()
+    {
+        int n,x; cin>>n;
+        while(n>0)
+        {
+            cin>>x;
+            this->enqueue(x);
+            n--;
+        }
+    }
+};
+
+int  main()
+{
+    List L=List();
+    NhapList(L);
+    AddAfterQ(L, 1292, 13);
+    RemoveAfterQ(L, 6);
+    RemoveX(L, 6);
+
+    //RPrint(L);
+    // XuatList(L); cout<<endl;
+    // Stack st;
+    // st.Push_n();
+    //  // Duyet
+    //   while(!st.isEmpty())
+    //   {
+    //     cout<<st.top()<<" ";
+    //     st.pop();
+    //   }
+    
+    // Queue q;
+    //  q.enqueue_n();
+    //  q.enqueue(10101);
+    //  while(!q.isEmpty()) 
+    //  {
+    //     cout<<q.front()<<" ";
+    //     q.dequeue();
+    //  }
+
+return 0;
+}

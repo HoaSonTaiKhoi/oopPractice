@@ -1,0 +1,200 @@
+//BSTree
+#include<iostream>
+#include<queue>
+#include<stack>
+using namespace std;
+
+struct Node
+{
+    int info;
+    Node* left;
+    Node* right;
+    Node(int x)
+    {
+        this->info=x;
+        this->left=nullptr;
+        this->right=nullptr;
+    }
+};
+
+typedef Node* TREE;
+
+void binary_insertnode(Node* &t, int x)
+{
+    if(t)
+    {
+        if(t->info==x) return;
+        if(t->info>x) return binary_insertnode(t->left, x);
+        else return binary_insertnode(t->right, x);
+    }
+    else t=new Node(x);
+return;
+}
+
+void Nhap_n(TREE &t)
+{
+    int n,x; cin>>n;
+    while(n>0)
+    {
+        cin>>x;
+        binary_insertnode(t, x);
+        n--;
+    }
+}
+
+void Duyet_NLR(TREE t)
+{
+    if(t)
+    {
+        cout<<t->info<<" ";
+        Duyet_NLR(t->left);
+        Duyet_NLR(t->right);
+    }
+    return;
+}
+
+void Duyet_NLR_queue(TREE t)
+{
+    if(!t) return;
+    stack<TREE> a;
+    a.push(t);
+    while(!a.empty())
+    {
+        TREE p= a.top();
+        cout<<p->info<<" ";
+        a.pop();
+        if(p->right) a.push(p->right);
+        if(p->left) a.push(p->left);
+    }
+}
+
+void Duyet_LNR(TREE t)
+{
+    if(t)
+    {
+     Duyet_LNR(t->left);
+     cout<<t->info<<" ";
+     Duyet_LNR(t->right);
+    }
+return;
+}
+
+void Duyet_LNR_o_dequy(TREE t)
+{
+    stack<Node*> a;
+
+    Node* p=t;
+    while(true)
+    {
+        while(p)
+        {
+            a.push(p);
+            p=p->left;
+        }
+
+        if(a.empty()) break;
+         Node* tmp=a.top(); a.pop();
+         cout<<tmp->info<<" ";
+         if(tmp->right) p=tmp->right;
+    }
+}
+
+void Duyet_LRN(TREE t)
+{
+    if(t)
+    {
+        Duyet_LRN(t->left);
+        Duyet_LRN(t->right);
+        cout<<t->info<<" ";
+    }
+return;
+}
+
+void Duyet_LRN_stack(TREE t)
+{
+    stack<Node*> a;
+
+    Node* p=t, *lastvisit=nullptr;
+    while(true)
+    {
+        while(p)
+        {
+            a.push(p);
+            p=p->left;
+        }
+
+        Node* tmp=a.top();
+        if(tmp->right && tmp->right!=lastvisit) p=tmp->right;
+        else
+        {
+            cout<<tmp->info<<" ";
+            lastvisit=tmp;
+            a.pop();
+        }
+        if(a.empty()) break;
+    }
+}
+
+void Duyet_rong(TREE t)
+{
+    queue<Node*> a;
+
+    a.push(t);
+    while(!a.empty())
+    {
+        Node*p=a.front();
+        cout<<a.front()->info<<" ";
+        a.pop();
+        if(p->left) a.push(p->left); 
+        if(p->right) a.push(p->right); 
+    }
+}
+
+void NLR(TREE t)
+{
+    if(t)
+    {
+        cout<<t->info<<" ";
+        NLR(t->left);
+        NLR(t->right);
+    }
+return;
+}
+
+void RLN(TREE t)
+{
+    if(t )
+    {
+        RLN(t->right);
+        RLN(t->left);
+        cout<<t->info<<" ";
+    }
+}
+
+int chieucao(TREE t)
+{
+    if(!t) return -1;
+    int a=chieucao(t->left);
+    int b=chieucao(t->right);
+
+    return (a>b?a:b)+1;
+}
+int main()
+{
+    TREE t;
+    t=nullptr;
+
+    Nhap_n(t);
+    Duyet_NLR(t);
+    cout<<endl;
+    Duyet_NLR_queue(t);
+    cout<<"\n LNR: "; Duyet_LNR(t);
+    cout<<"\n*LNR: "; Duyet_LNR_o_dequy(t);
+    cout<<"\n LRN: "; Duyet_LRN(t);
+    cout<<"\n*LRN: "; Duyet_LRN_stack(t);
+    cout<<"\n Duyet rong: "; Duyet_rong(t);
+    cout<<"\n NLR: "; NLR(t);
+    cout<<"\n RLN: "; RLN(t);
+    cout<<"\n Chieu cao: "<<chieucao(t);
+return 0;
+}

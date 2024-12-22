@@ -1,0 +1,16 @@
+#include<fstream>
+#include<iostream>
+using namespace std;
+main()
+{
+    ofstream out("C:\\Code C\\DU_AN_CONG_CHUA_G\\test.txt");
+    if(!out ) 
+    {
+        cout<<"Khong mo duoc file";
+        return 1;
+    }
+    out<<10<<"\t"<<123<<endl;
+    out<<"Lo con cu";
+    out.close();
+return 0;
+}
